@@ -1,0 +1,2 @@
+# tugaschell
+ini file saya
