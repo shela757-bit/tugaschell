@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Komunitas Wattpad - Vintage Sastra Hidup</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Palet Vintage: beige, gold, coklat muda */
+    :root{
+      --bg-1: #fbf6f0; /* very light beige */
+      --bg-2: #f5ede3; /* warm cream */
+      --accent: #b6852b; /* gold */
+      --muted: #6b4f35; /* brown */
+      --card: #fffaf6;
+      --overlay: rgba(20,12,8,0.06);
+    }
+    body{
+      background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--muted);
+      overflow-x: hidden;
+    }
+    /* Hero */
+    .hero{
+      position: relative;
+      padding: 120px 0 80px;
+      background-image: linear-gradient(rgba(245,238,226,0.65), rgba(245,238,226,0.65)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover; background-position: center;
+      border-bottom: 1px solid var(--overlay);
+      box-shadow: inset 0 -60px 80px rgba(0,0,0,0.03);
+    }
+    .hero .profile-img{
+      width: 170px; height:170px; object-fit:cover; border-radius:50%; border:6px solid rgba(255,250,246,0.9); box-shadow:0 8px 24px rgba(107,79,53,0.14);
+    }
+    .site-title{font-family: 'Playfair Display', serif; font-size:2.4rem; font-weight:700; color:var(--muted);}
+    .quote{
+      font-style: italic; color: #5a3f2a; font-size:1.05rem; margin-top:8px;
+      background: linear-gradient(90deg, rgba(182,133,43,0.06), rgba(255,250,246,0)); padding:8px 14px; border-radius:8px; display:inline-block;
+    }
+
+    /* Sticker layers */
+    .stickers{position:absolute; inset:0; pointer-events:none; z-index:2;}
+    .sticker{position:absolute; transform-origin:center center;}
+
+    /* Guitar sway */
+    .guitar{width:120px; right:4%; bottom:8%; animation: sway 4s ease-in-out infinite;}
+    @keyframes sway{ 0%{transform:rotate(-6deg) translateY(0);}50%{transform:rotate(6deg) translateY(-6px);}100%{transform:rotate(-6deg) translateY(0);} }
+
+    /* Floating books & pena */
+    .float-item{width:70px; opacity:0.95; animation: floatUp linear infinite;}
+    .float-item.small{width:52px}
+    .float-item.medium{width:62px}
+    @keyframes floatUp{
+      0%{transform: translateY(100vh) rotate(0deg) scale(0.95); opacity:0.9}
+      50%{opacity:1}
+      100%{transform: translateY(-10vh) rotate(360deg) scale(1.05); opacity:0.6}
+    }
+
+    /* Flower petals */
+    .petal{width:36px; opacity:0.9; animation: drift 9s linear infinite;}
+    @keyframes drift{0%{transform: translateY(110vh) translateX(0) rotate(0);}50%{opacity:1}100%{transform: translateY(-10vh) translateX(30px) rotate(180deg); opacity:0.2}}
+
+    /* Cards and gallery */
+    .card-vintage{background:var(--card); border:1px solid var(--overlay); box-shadow:0 6px 22px rgba(107,79,53,0.06);}
+    .book-gallery img{border-radius:10px; transition: transform .32s ease, box-shadow .32s ease;}
+    .book-gallery img:hover{transform:translateY(-6px) scale(1.03); box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+
+    /* Toggle music control */
+    .music-toggle{position:fixed; right:18px; bottom:18px; z-index:999; background:linear-gradient(180deg,#fffaf6,#f7efe4); border:1px solid var(--overlay); padding:8px 10px; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.08); cursor:pointer}
+    .music-toggle svg{width:22px; height:22px; vertical-align:middle}
+
+    /* Quote slider */
+    .quote-area{min-height:54px}
+    .quote-fade{transition:opacity 600ms ease; opacity:0}
+    .quote-fade.show{opacity:1}
+
+    /* responsive tweaks */
+    @media (max-width:768px){ .guitar{display:none} .site-title{font-size:1.6rem} .hero{padding:90px 0 60px} }
+  </style>
+</head>
+<body>
+
+  <!-- Audio (loop). Source: public domain / royalty-free short ambient with soft guitar feel -->
+  <audio id="bg-audio" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_cdd25a9367.mp3?filename=soft-piano-ambient-14176.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Hero -->
+  <section class="hero text-center">
+    <div class="stickers" aria-hidden="true">
+      <!-- Left cluster: books & pen rotating -->
+      <img class="sticker float-item small" src="https://cdn-icons-png.flaticon.com/512/29/29302.png" style="left:6%; bottom:8%; animation-duration:18s; animation-delay:0s;" alt="book-sticker">
+      <img class="sticker float-item medium" src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" style="left:14%; bottom:6%; animation-duration:20s; animation-delay:3s;" alt="book-open">
+      <img class="sticker float-item" src="https://cdn-icons-png.flaticon.com/512/1042/1042339.png" style="left:22%; bottom:12%; animation-duration:22s; animation-delay:6s;" alt="pen">
+
+      <!-- Right guitar -->
+      <img class="sticker guitar" src="https://cdn-icons-png.flaticon.com/512/254/254636.png" style="" alt="guitar-sticker">
+
+      <!-- petals -->
+      <img class="sticker petal" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRILQMO8-PIs036WZ4wkxoOxkKCpN5EsGuY6aPGdLYW2WUwRa1CQVzbXauzZWv63Hygry4&usqp=CAU" style="left:36%; bottom:4%; animation-duration:10s; animation-delay:2s;" alt="petal">
+      <img class="sticker petal" src="https://i.pinimg.com/564x/d2/4c/c1/d24cc1db3bb4086b24e383dba76c3266.jpg" style="left:72%; bottom:2%; animation-duration:12s; animation-delay:5s;" alt="petal-2">
+    </div>
+
+    <div class="container position-relative" style="z-index:3">
+      <img src="w.png" class="profile-img mb-3" alt="Profil Komunitas">
+      <div class="d-flex justify-content-center align-items-center gap-3 flex-column">
+        <div class="site-title">—Welcome To The Wattpad Community— </div>
+        <div class="quote-area mt-2">
+          <div id="quote1" class="quote-fade show quote">“Kata adalah rumah bagi jiwa yang rindu.”</div>
+          <div id="quote2" class="quote-fade quote">“Di antara senyap dan aksara, kita saling mengenal.”</div>
+          <div id="quote3" class="quote-fade quote">“Setiap tulisan adalah perjalanan pulang ke diri sendiri.”</div>
+          <div id="quote4" class="quote-fade quote">“Nada dan kata, dua sayap anak sastra.”</div>
+        </div>
+        <a href="#galeri" class="btn btn-outline-dark mt-3" style="background:linear-gradient(90deg,#fffaf6,#f5ede3); border-color:var(--overlay)">Masuk ke Galeri Buku</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row align-items-center gy-4">
+        <div class="col-md-6">
+          <div class="card card-vintage p-4">
+            <h3 class="mb-2">Tentang Komunitas</h3>
+            <p class="text-muted">Komunitas ini merayakan jiwa muda penyuka kata dengan sentuhan klasik — buku tua, gitar akustik, pena, dan secangkir kopi hangat. Di sini, cerita mengalir hangat, kritik membangun, dan persahabatan terbina lewat huruf.</p>
+            <p class="mb-0"><span class="tag" style="background:#f7efe4;color:var(--muted);padding:6px 10px;border-radius:20px;border:1px solid rgba(107,79,53,0.06)">Vintage • Ceria • Sastra</span></p>
+          </div>
+        </div>
+        <div class="col-md-6 text-center">
+          <img src="rek.jpeg" class="img-fluid rounded-3" alt="library">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="galeri" class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2 class="mb-1">Galeri Buku Bacaan</h2>
+        <p class="text-muted">Koleksi karya anggota — kelompokan berdasarkan genre dan rasa.</p>
+      </div>
+
+      <div class="row g-4 book-gallery">
+        <div class="col-6 col-md-4 col-lg-3"><div class="card card-vintage p-2"><img src="Agaskar.jpg" class="img-fluid" alt="book"></div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="card card-vintage p-2"><img src="Aldara.jpg" class="img-fluid" alt="book"></div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="card card-vintage p-2"><img src="Galaksi-Kejora.jpg" class="img-fluid" alt="book"></div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="card card-vintage p-2"><img src="Ezaquel.jpg" class="img-fluid" alt="book"></div></div>
+
+        <div class="col-6 col-md-4 col-lg-3"><div class="card card-vintage p-2"><img src="LEIDEN.jpg" class="img-fluid" alt="book"></div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="card card-vintage p-2"><img src="Back-To-School.jpg" class="img-fluid" alt="book"></div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="card card-vintage p-2"><img src="antares.webp" class="img-fluid" alt="book"></div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="card card-vintage p-2"><img src="Cover_Septihan.webp" class="img-fluid" alt="book"></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Members -->
+  <section class="py-5">
+    <div class="container text-center">
+      <h3 class="mb-4">Teman & Penulis</h3>
+      <div class="row justify-content-center g-4">
+        <div class="col-6 col-md-3"><img src="alehs.jpeg" class="rounded-circle mb-2" width="100" height="100"><h6>Shela</h6><small class="text-muted">Penulis Novel</small></div>
+        <div class="col-6 col-md-3"><img src="umiii.jpeg" class="rounded-circle mb-2" width="100" height="100"><h6>Aulia</h6><small class="text-muted">Penyair</small></div>
+        <div class="col-6 col-md-3"><img src="mmip.jpeg" class="rounded-circle mb-2" width="100" height="100"><h6>Bela</h6><small class="text-muted">Fiksi</small></div>
+        <div class="col-6 col-md-3"><img src="raaa.jpeg" class="rounded-circle mb-2" width="100" height="100"><h6>Zahra</h6><small class="text-muted">Editor</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center" style="background:linear-gradient(180deg,#fffaf6,#f7efe4); border-top:1px solid var(--overlay)">
+    <p class="mb-0 text-muted">© 2025 Komunitas Wattpad — Vintage Sastra Hidup • Dibuat dengan musik, kopi, dan kata-kata.</p>
+  </footer>
+
+  <!-- Music toggle control -->
+  <div id="musicToggle" class="music-toggle" title="Play / Pause Musik" aria-label="Kontrol musik">
+    <svg id="iconPlay" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 3v18l15-9L5 3z" /></svg>
+    <svg id="iconPause" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M10 6h2v12h-2zM14 6h2v12h-2z" /></svg>
+  </div>
+
+  <script>
+    // Quote slideshow
+    const quotes = ['quote1','quote2','quote3','quote4'];
+    let qIndex = 0;
+    setInterval(()=>{
+      const prev = document.getElementById(quotes[qIndex]);
+      prev.classList.remove('show');
+      qIndex = (qIndex+1) % quotes.length;
+      const next = document.getElementById(quotes[qIndex]);
+      next.classList.add('show');
+    }, 4200);
+
+    // Start audio softly after user interaction policy: try to play; allow toggle
+    const audio = document.getElementById('bg-audio');
+    const toggle = document.getElementById('musicToggle');
+    const iconPlay = document.getElementById('iconPlay');
+    const iconPause = document.getElementById('iconPause');
+    let playing = false;
+
+    // attempt to autoplay (may be blocked); keep muted initial until user clicks
+    audio.volume = 0.25;
+
+    function playAudio(){ audio.play().then(()=>{ playing=true; iconPlay.style.display='none'; iconPause.style.display='inline'; }).catch(()=>{ /* autoplay blocked */ playing=false; iconPlay.style.display='inline'; iconPause.style.display='none'; }); }
+    function pauseAudio(){ audio.pause(); playing=false; iconPlay.style.display='inline'; iconPause.style.display='none'; }
+
+    // toggle on click
+    toggle.addEventListener('click', ()=>{
+      if(playing){ pauseAudio(); } else { playAudio(); }
+    });
+
+    // try to play once user interacts with page (safer for browsers)
+    function unlockAudio(){ playAudio(); window.removeEventListener('click', unlockAudio); window.removeEventListener('keydown', unlockAudio); }
+    window.addEventListener('click', unlockAudio);
+    window.addEventListener('keydown', unlockAudio);
+
+    // Stagger animations by setting different durations/delays for float items
+    document.querySelectorAll('.float-item').forEach((el,i)=>{
+      el.style.animationDuration = (18 + (i%5)*3) + 's';
+      el.style.animationDelay = (i*1.5) + 's';
+    });
+    document.querySelectorAll('.petal').forEach((el,i)=>{
+      el.style.animationDuration = (9 + (i%3)*3)+'s';
+      el.style.animationDelay = (i*1.4)+'s';
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
